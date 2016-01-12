@@ -54,10 +54,33 @@ def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
     text = ""
+    
 
-    # your code goes here
+    link = choice(chains.keys())
+    text = link[0] + " " + link[1]
+
+    random_word = choice(chains.get(link))
+    text = text + " " + random_word
+    new_key = (link[1], random_word)
+    last_key = ("Sam", "I")
+    
+    for new_key in chains:
+        next_random_word = choice(chains.get(new_key))
+        text = text + " " + next_random_word
+        new_key = (new_key[1], next_random_word)
+    
+        if new_key == last_key:
+            break
+
+    #print "text is now ", text
+    #print "link is ", link
+    #print "new key is ", new_key
 
     return text
+   
+#Make a new key out of the second word in the first key and the random word you pulled out from the list of words that followed it.
+#Look up that new key in the dictionary, and pull a new random word out of the new list.
+#Keep doing that until your program raises a KeyError.
 
 
 input_path = "green-eggs.txt"

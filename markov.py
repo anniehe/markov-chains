@@ -30,7 +30,22 @@ def make_chains(text_string):
 
     chains = {}
 
-    # your code goes here
+    words = text_string.split()
+
+    for index in range(len(words) - 1):
+        
+        # We want the index for the value of the next word to stay within range.
+        if index + 2 > len(words) - 1:
+            break
+        
+        word_pair = (words[index], words[index + 1])
+        
+        if word_pair not in chains:
+            next_word = [words[index + 2]]
+            chains[word_pair] = next_word
+
+        else:
+            chains[word_pair].append(words[index + 2])
 
     return chains
 

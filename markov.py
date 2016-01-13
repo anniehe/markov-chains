@@ -52,8 +52,11 @@ def make_text(chains):
 
     text = ""
     
-    # link is a random key tuple from our chains dictionary
-    link = choice(chains.keys())
+    while True:
+        link = choice(chains.keys())
+        if link[0].istitle():
+            break
+
     text = link[0] + " " + link[1]
 
     while link in chains:

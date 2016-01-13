@@ -32,17 +32,13 @@ def make_chains(text_string):
 
     words = text_string.split()
 
-    for index in range(len(words) - 1):
-        
-        # We want the index for the value of the next word to stay within range.
-        if index + 2 > len(words) - 1:
-            break
+    # We want to stay within range for index + 2, as used below.
+    for index in range(len(words) - 2):
         
         word_pair = (words[index], words[index + 1])
         
         if word_pair not in chains:
-            next_word = [words[index + 2]]
-            chains[word_pair] = next_word
+            chains[word_pair] = [words[index + 2]]
 
         else:
             chains[word_pair].append(words[index + 2])
@@ -55,32 +51,16 @@ def make_text(chains):
 
     text = ""
     
-
+    # link is a random key tuple from our chains dictionary
     link = choice(chains.keys())
     text = link[0] + " " + link[1]
 
-    random_word = choice(chains.get(link))
-    text = text + " " + random_word
-    new_key = (link[1], random_word)
-    last_key = ("Sam", "I")
-    
-    for new_key in chains:
-        next_random_word = choice(chains.get(new_key))
-        text = text + " " + next_random_word
-        new_key = (new_key[1], next_random_word)
-    
-        if new_key == last_key:
-            break
-
-    #print "text is now ", text
-    #print "link is ", link
-    #print "new key is ", new_key
+    while link in chains:
+        random_word = choice(chains.get(link))
+        text = text + " " + random_word
+        link = (link[1], random_word)
 
     return text
-   
-#Make a new key out of the second word in the first key and the random word you pulled out from the list of words that followed it.
-#Look up that new key in the dictionary, and pull a new random word out of the new list.
-#Keep doing that until your program raises a KeyError.
 
 
 input_path = "green-eggs.txt"

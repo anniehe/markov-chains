@@ -33,6 +33,8 @@ def make_chains(text_string, n):
 
     words = text_string.split()
 
+    # SOLUTION FOR A BI-GRAM
+
     # We want to stay within range for index + 2, as used below.
     # for index in range(len(words) - 2):
         
@@ -46,7 +48,7 @@ def make_chains(text_string, n):
 
     for index in range(len(words) - n):
         word_gram = []
-        
+
         for i in range(n):
             word_gram.append(words[index + i])
         word_gram = tuple(word_gram)
@@ -62,7 +64,7 @@ def make_chains(text_string, n):
     return chains
 
 
-def make_text(chains):
+def make_text(chains, n):
     """Takes dictionary of markov chains; returns random text."""
 
     text = ""
@@ -72,12 +74,21 @@ def make_text(chains):
         if link[0].istitle():
             break
 
-    text = link[0] + " " + link[1]
+    # SOLUTION FOR A BI-GRAM
+    # text = link[0] + " " + link[1]
+
+    # while link in chains:
+    #     random_word = choice(chains.get(link))
+    #     text = text + " " + random_word
+    #     link = (link[1], random_word)
+
+    for i in range(n):
+        text = " ".join(link[i])
 
     while link in chains:
         random_word = choice(chains.get(link))
         text = text + " " + random_word
-        link = (link[1], random_word)
+        link = (link[n - 1], random_word)
 
     return text
 
@@ -92,6 +103,6 @@ input_text = open_and_read_file(input_path)
 chains = make_chains(input_text, int(sys.argv[2]))
 
 # Produce random text
-random_text = make_text(chains)
+random_text = make_text(chains, int(sys.argv[2]))
 
 print random_text

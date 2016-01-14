@@ -33,19 +33,6 @@ def make_chains(text_string, n):
 
     words = text_string.split()
 
-    # SOLUTION FOR A BI-GRAM
-
-    # We want to stay within range for index + 2, as used below.
-    # for index in range(len(words) - 2):
-        
-    #     word_pair = (words[index], words[index + 1])
-        
-    #     if word_pair not in chains:
-    #         chains[word_pair] = [words[index + 2]]
-
-    #     else:
-    #         chains[word_pair].append(words[index + 2])
-
     for index in range(len(words) - n):
         word_gram = []
 
@@ -59,36 +46,38 @@ def make_chains(text_string, n):
         else:
             chains[word_gram].append(words[index + n])
 
-    #print chains
+    # print chains
 
     return chains
 
 
 def make_text(chains, n):
     """Takes dictionary of markov chains; returns random text."""
-
-    text = ""
     
     while True:
         link = choice(chains.keys())
         if link[0].istitle():
             break
 
-    # SOLUTION FOR A BI-GRAM
-    # text = link[0] + " " + link[1]
+    link_list = list(link)
 
-    # while link in chains:
-    #     random_word = choice(chains.get(link))
-    #     text = text + " " + random_word
-    #     link = (link[1], random_word)
-
-    for i in range(n):
-        text = " ".join(link[i])
-
+    print "link list is:", link_list
+    
     while link in chains:
-        random_word = choice(chains.get(link))
-        text = text + " " + random_word
-        link = (link[n - 1], random_word)
+        random_word = choice(chains[link])
+        link_list.append(random_word)
+
+        link_temp = list(link[1:])
+        link_temp.append(random_word)
+        link = tuple(link_temp)
+        text = " ".join(link_list)
+    # print "link is:", link
+    # print "link list is:", link_list
+    # print "text is:", text
+
+
+    # print "text is:",text
+
 
     return text
 
